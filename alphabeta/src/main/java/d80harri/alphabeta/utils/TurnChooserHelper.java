@@ -1,4 +1,4 @@
-package d80harri.alphabeta.utils;
+package d80harri.alphabeta.utils; 
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
