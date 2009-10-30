@@ -8,7 +8,8 @@ public class TTTFitnessFunction implements IFitnessFunction{
 
 	@Override
 	public double calculateFitness(IPosition position) {
-		return FitnessCalculation.calculateFitness(position);
+		TTTPosition pos = (TTTPosition) position;
+		return FitnessCalculation.calculateFitness(pos);
 	}
 
 	

@@ -6,9 +6,9 @@ import d80harri.alphabeta.ttt.TTTPosition;
 
 public class FitnessCalculation {
 	
-	public static double calculateFitness(IPosition arg0) {
-		TTTPosition position = (TTTPosition) arg0;
-		
+	public static double calculateFitness(TTTPosition position) {
+		assert TTTPosition.NUM_ROWS == 3;
+		assert TTTPosition.NUM_COLS == 3;
 		for (int i=0; i<TTTPosition.NUM_COLS; i++){
 			if (checkCols(position, i, AlphaBetaPlayer.MAX))
 				return 1;
@@ -23,12 +23,29 @@ public class FitnessCalculation {
 				return -1;
 		}
 		
-		// TODO Diagonals
-		
+		if (checkGrowingDiagonal(position, AlphaBetaPlayer.MAX) || checkFallingDiagonal(position, AlphaBetaPlayer.MAX)){
+			return 1;
+		}
+		if (checkGrowingDiagonal(position, AlphaBetaPlayer.MIN) || checkFallingDiagonal(position, AlphaBetaPlayer.MIN)){
+			return -1;
+		}
+
 		return 0;
 	}
 	
-	public static boolean isFinished(IPosition arg0){
+	private static boolean checkGrowingDiagonal(TTTPosition position, AlphaBetaPlayer stone){
+		return position.getStone(2, 0) == stone &&
+			position.getStone(1, 1) == stone &&
+			position.getStone(0, 2) == stone;
+	}
+	
+	private static boolean checkFallingDiagonal(TTTPosition position, AlphaBetaPlayer stone){
+		return position.getStone(0, 0) == stone &&
+			position.getStone(1, 1) == stone &&
+			position.getStone(2, 2) == stone;
+	}
+	
+	public static boolean isFinished(TTTPosition arg0){
 		return calculateFitness(arg0) != 0;
 	}
 
