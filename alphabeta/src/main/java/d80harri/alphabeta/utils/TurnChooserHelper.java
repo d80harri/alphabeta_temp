@@ -3,15 +3,16 @@ package d80harri.alphabeta.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Collection;
 
 import d80harri.alphabeta.core.VectorTurn;
 import d80harri.alphabeta.intfs.AlphaBetaPlayer;
 import d80harri.alphabeta.intfs.IFitnessFunction;
 import d80harri.alphabeta.intfs.IPlayer;
 import d80harri.alphabeta.intfs.IPosition;
+import d80harri.alphabeta.intfs.ISearch;
 import d80harri.alphabeta.intfs.ITurn;
 import d80harri.alphabeta.intfs.ITurnGenerator;
+import d80harri.alphabeta.intfs.ISearch.SearchResult;
 import d80harri.alphabeta.search.AlphaBetaSearch;
 import d80harri.alphabeta.sticks.SticksFitnessFunction;
 import d80harri.alphabeta.sticks.SticksPosition;
@@ -49,22 +50,9 @@ public class TurnChooserHelper {
 	}
 	
 	public static ITurn chooseBestTurn(ITurnGenerator gen, IPosition pos,
-			IFitnessFunction fit) {
-		Collection<ITurn> turns = gen.generateTurns(pos);
-		double bestFitness = 0.0;
-		ITurn bestTurn = null;
-
-		for (ITurn turn : turns) {
-			double temp = fit.calculateFitness(pos.doTurn(turn));
-			if (bestTurn == null
-					|| pos.getPlayerOnTurn() == AlphaBetaPlayer.MAX
-					&& bestFitness < temp
-					|| pos.getPlayerOnTurn() == AlphaBetaPlayer.MIN
-					&& bestFitness > temp) {
-				bestTurn = turn;
-				bestFitness = temp;
-			}
-		}
+			ISearch search) {
+		SearchResult sResult = search.doSearch(pos);
+		ITurn bestTurn = sResult.getTurn();
 		System.out.println("found best turn " + bestTurn);
 		return bestTurn;
 	}
@@ -96,13 +84,13 @@ public class TurnChooserHelper {
 	}
 
 	private static ITurn chooseTurn(ITurnGenerator gen, IPosition pos,
-			IFitnessFunction fit, IPlayer human, BufferedReader reader, StringToTurnConverter converter)
+			ISearch search, IPlayer human, BufferedReader reader, StringToTurnConverter converter)
 			throws IOException {
 		ITurn result = null;
 		if (pos.getPlayerOnTurn() == human) {
 			result = promptTurn(human, reader, converter);
 		} else {
-			result = chooseBestTurn(gen, pos, fit);
+			result = chooseBestTurn(gen, pos, search);
 		}
 		return result;
 	}

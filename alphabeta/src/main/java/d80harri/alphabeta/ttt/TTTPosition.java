@@ -5,6 +5,7 @@ import d80harri.alphabeta.intfs.AlphaBetaPlayer;
 import d80harri.alphabeta.intfs.IPlayer;
 import d80harri.alphabeta.intfs.IPosition;
 import d80harri.alphabeta.intfs.ITurn;
+import d80harri.alphabeta.ttt.utils.FitnessCalculation;
 
 public class TTTPosition extends AbstractPosition{	
 	public static final int NUM_ROWS = 3;
@@ -57,6 +58,11 @@ public class TTTPosition extends AbstractPosition{
 		else
 			result.setPlayerOnTurn(AlphaBetaPlayer.MAX);
 		return result;
+	}
+
+	@Override
+	public AlphaBetaPlayer isGameOver() {
+		return FitnessCalculation.isFinished(this);
 	}
 
 

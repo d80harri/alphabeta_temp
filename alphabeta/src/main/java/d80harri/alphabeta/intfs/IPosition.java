@@ -4,4 +4,6 @@ public interface IPosition {
 	public IPlayer getPlayerOnTurn();
 
 	public IPosition doTurn(ITurn turn);
+	
+	public IPlayer isGameOver();
 }

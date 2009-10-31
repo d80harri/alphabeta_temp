@@ -3,6 +3,7 @@ package d80harri.alphabeta.sticks;
 import d80harri.alphabeta.core.AbstractPosition;
 import d80harri.alphabeta.core.VectorTurn;
 import d80harri.alphabeta.intfs.AlphaBetaPlayer;
+import d80harri.alphabeta.intfs.IPlayer;
 import d80harri.alphabeta.intfs.IPosition;
 import d80harri.alphabeta.intfs.ITurn;
 
@@ -48,5 +49,20 @@ public class SticksPosition extends AbstractPosition{
 			buffer.append(this.getHeap(i) + " ");
 		}
 		return buffer.toString();
+	}
+
+	@Override
+	public IPlayer isGameOver() {
+		boolean result = true;
+		int i = 0;
+		while (result && i<this.getNumHeaps()){
+			result = this.getHeap(i) == 0;
+			i++;
+		}
+		if (result){
+			return this.getPlayerOnTurn();
+		} else {
+			return null; // TODO seperate method for isGameOver and winner is
+		}
 	}
 }

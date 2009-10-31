@@ -45,8 +45,13 @@ public class FitnessCalculation {
 			position.getStone(2, 2) == stone;
 	}
 	
-	public static boolean isFinished(TTTPosition arg0){
-		return calculateFitness(arg0) != 0;
+	public static AlphaBetaPlayer isFinished(TTTPosition arg0){
+		double res = calculateFitness(arg0);
+		
+		if (res < 0)
+			return AlphaBetaPlayer.MIN;
+		else
+			return AlphaBetaPlayer.MAX;
 	}
 
 	private static boolean checkRows(TTTPosition position, int i, AlphaBetaPlayer stone) {
