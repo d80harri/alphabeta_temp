@@ -14,7 +14,7 @@ public class TTTTurnGenerator implements ITurnGenerator {
 	public Collection<ITurn> generateTurns(IPosition arg0) {
 		ArrayList<ITurn> result = new ArrayList<ITurn>();
 		TTTPosition position = (TTTPosition) arg0;
-		if (FitnessCalculation.isFinished(position) == null) {
+		if (!FitnessCalculation.isFinished(position)) {
 			for (int i = 0; i < TTTPosition.NUM_COLS; i++) {
 				for (int j = 0; j < TTTPosition.NUM_ROWS; j++) {
 					if (position.getStone(i, j) == null) {

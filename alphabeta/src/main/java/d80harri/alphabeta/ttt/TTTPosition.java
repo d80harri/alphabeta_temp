@@ -61,8 +61,27 @@ public class TTTPosition extends AbstractPosition{
 	}
 
 	@Override
-	public AlphaBetaPlayer isGameOver() {
+	public boolean isGameOver() {
 		return FitnessCalculation.isFinished(this);
+	}
+
+	@Override
+	public GameResult[] gameResults() {
+		GameResult[] results = null;
+		if (isGameOver()){
+			results = new GameResult[2];
+			if (FitnessCalculation.calculateFitness(this) < 0){
+				results[0] = new GameResult(AlphaBetaPlayer.MIN, 0, 1, 0);
+				results[1] = new GameResult(AlphaBetaPlayer.MAX, 1, 0, 0);
+			} else if (FitnessCalculation.calculateFitness(this) >  0) {
+				results[0] = new GameResult(AlphaBetaPlayer.MIN, 1, 0, 0);
+				results[1] = new GameResult(AlphaBetaPlayer.MAX, 0, 1, 0);
+			} else {
+				results[0] = new GameResult(AlphaBetaPlayer.MIN, 0, 0, 1);
+				results[1] = new GameResult(AlphaBetaPlayer.MAX, 0, 0, 1);
+			}
+		}
+		return results;
 	}
 
 

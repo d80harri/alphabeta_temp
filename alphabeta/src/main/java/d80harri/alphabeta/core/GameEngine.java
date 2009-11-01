@@ -8,6 +8,7 @@ import d80harri.alphabeta.intfs.IAgent;
 import d80harri.alphabeta.intfs.IPlayer;
 import d80harri.alphabeta.intfs.IPosition;
 import d80harri.alphabeta.intfs.ITurn;
+import d80harri.alphabeta.intfs.IPosition.GameResult;
 
 public class GameEngine {
 	public static class AgentDescription {
@@ -32,9 +33,9 @@ public class GameEngine {
 		}
 	}
 	
-	public IPlayer startGame() {
+	public GameResult[] startGame() {
 		positions.clear();
-		while (position.isGameOver() == null) {
+		while (!position.isGameOver()) {
 			IPlayer playerOnTurn = position.getPlayerOnTurn();
 			IAgent agentOnTurn = agents.get(playerOnTurn);
 			
@@ -47,7 +48,7 @@ public class GameEngine {
 			position = position.doTurn(turn);
 		}
 		positions.add(this.position);
-		return position.isGameOver();
+		return position.gameResults();
 	}
 	
 	public ArrayList<IPosition> getPositions() {
